@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Employee Login + Form</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,386 +9,404 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
-  body {
-    background: #eef2f7;
-  }
+    body {
+      background: #eef2f7;
+    }
 
-  .box {
-    max-width: 650px;
-    margin: auto;
-    margin-top: 40px;
-  }
+    .box {
+      max-width: 650px;
+      margin: auto;
+      margin-top: 40px;
+    }
 
-  .card {
-    padding: 28px;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-  }
+    .card {
+      padding: 28px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
 
-  h4 {
-    font-size: 24px;
-    font-weight: 600;
-  }
+    h4 {
+      font-size: 24px;
+      font-weight: 600;
+    }
 
-  .form-control,
-  .form-select {
-    height: 48px;
-    font-size: 16px;
-  }
+    .form-control,
+    .form-select {
+      height: 48px;
+      font-size: 16px;
+    }
 
-  .btn {
-    height: 48px;
-    font-size: 16px;
-    font-weight: 600;
-  }
+    .btn {
+      height: 48px;
+      font-size: 16px;
+      font-weight: 600;
+    }
 
-  label {
-    font-weight: 500;
-    margin-bottom: 6px;
-  }
+    label {
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
 
-  #loginBox {
-    padding: 35px;
-  }
+    #loginBox {
+      padding: 35px;
+    }
 
-  #formBox .card {
-    padding: 35px;
-  }
+    #formBox .card {
+      padding: 35px;
+    }
 
-  .spinner-border {
-    width: 1.2rem;
-    height: 1.2rem;
-  }
-</style>
+    .spinner-border {
+      width: 1.2rem;
+      height: 1.2rem;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="box">
+  <div class="box">
 
-<!-- ================= LOGIN ================= -->
-<div class="card" id="loginBox">
-  <h4>Login</h4>
+    <!-- ================= LOGIN ================= -->
+    <div class="card" id="loginBox">
+      <h4>Login</h4>
 
-  <input id="username" class="form-control mt-2" placeholder="Username">
-  <input id="password" type="password" class="form-control mt-2" placeholder="Password">
+      <input id="username" class="form-control mt-2" placeholder="Username">
+      <input id="password" type="password" class="form-control mt-2" placeholder="Password">
 
- <button id="loginBtn" class="btn btn-primary w-100 mt-3" onclick="login()">
-  <span id="loginText">Login</span>
-  <span id="loginSpin" class="spinner-border spinner-border-sm d-none"></span>
-</button>
-</div>
-
-<!-- ================= FORM ================= -->
-<div id="formBox" class="d-none">
-
-  <div class="container mt-5">
-    <div class="card shadow p-4">
-      <h4 class="mb-4">Employee Form</h4>
-
-      <!-- Type -->
-      <label class="form-label">Type</label>
-      <select id="type" class="form-select mb-3" onchange="toggleFields()">
-        <option value="" selected disabled>-- Select Option --</option>
-        <option value="ONVISIT">On Visit</option>
-        <option value="NOVISIT">No Visit</option>
-        <option value="LEAVE">Leave</option>
-        <option value="TOUR">Tour</option>
-      </select>
-
-      <!-- ONVISIT / NOVISIT DATE -->
-      <div id="dateBox" class="mb-3 d-none">
-        <label class="form-label">Date</label>
-        <input type="date" id="date" class="form-control">
-      </div>
-
-      <!-- Location -->
-      <div id="locationBox" class="mb-3 d-none">
-        <label class="form-label">Location</label>
-        <input type="text" id="location" class="form-control">
-      </div>
-
-      <!-- Remark -->
-      <div id="reasonBox" class="mb-3 d-none">
-        <label class="form-label">Reason</label>
-        <input type="text" id="reason" class="form-control">
-      </div>
-
-      <!-- Service -->
-      <div id="serviceBox" class="mb-3 d-none">
-        <label class="form-label">Service Details</label>
-        <input type="text" id="service" class="form-control">
-      </div>
-
-      <!-- WB -->
-      <div id="wbBox" class="mb-3 d-none">
-        <label class="form-label">WB</label>
-        <input type="text" id="wb" class="form-control">
-      </div>
-
-      <!-- Consumption -->
-      <div id="consumedBox" class="mb-3 d-none">
-        <label class="form-label">Consumption</label>
-        <input type="text" id="consumed" class="form-control">
-      </div>
-
-      <!-- LEAVE -->
-      <div id="fromBox" class="mb-3 d-none">
-        <label class="form-label">From Date</label>
-        <input type="date" id="fromdate" class="form-control">
-      </div>
-
-      <div id="toBox" class="mb-3 d-none">
-        <label class="form-label">To Date</label>
-        <input type="date" id="todate" class="form-control">
-      </div>
-
-      <div id="leaveCountBox" class="mb-3 d-none">
-        <label class="form-label">Total Leave</label>
-        <input type="text" id="leaveCount" class="form-control" readonly>
-      </div>
-
-      <div id="leaveRemarkBox" class="mb-3 d-none">
-        <label class="form-label">Leave Remark</label>
-        <input type="text" id="leaveRemark" class="form-control">
-      </div>
-
-      <button id="submitBtn" onclick="submitData()" class="btn btn-primary w-100 d-none">
-        <span id="btnText">Submit</span>
-        <span id="btnSpin" class="spinner-border spinner-border-sm d-none"></span>
+      <button id="loginBtn" class="btn btn-primary w-100 mt-3" onclick="login()">
+        <span id="loginText">Login</span>
+        <span id="loginSpin" class="spinner-border spinner-border-sm d-none"></span>
       </button>
+    </div>
+
+    <!-- ================= FORM ================= -->
+    <div id="formBox" class="d-none">
+
+      <div class="container mt-5">
+        <div class="card shadow p-4">
+          <h4 class="mb-4">Employee Form</h4>
+
+          <!-- Type -->
+          <label class="form-label">Type</label>
+          <select id="type" class="form-select mb-3" onchange="toggleFields()">
+            <option value="" selected disabled>-- Select Option --</option>
+            <option value="ONVISIT">On Visit</option>
+            <option value="NOVISIT">No Visit</option>
+            <option value="LEAVE">Leave</option>
+            <option value="TOUR">Tour</option>
+          </select>
+
+          <!-- ONVISIT / NOVISIT DATE -->
+          <div id="dateBox" class="mb-3 d-none">
+            <label class="form-label">Date</label>
+            <input type="date" id="date" class="form-control">
+          </div>
+
+          <!-- Location -->
+          <div id="locationBox" class="mb-3 d-none">
+            <label class="form-label">Location</label>
+            <input type="text" id="location" class="form-control">
+          </div>
+
+          <!-- Remark -->
+          <div id="reasonBox" class="mb-3 d-none">
+            <label class="form-label">Reason</label>
+            <input type="text" id="reason" class="form-control">
+          </div>
+
+          <!-- Service -->
+          <div id="serviceBox" class="mb-3 d-none">
+            <label class="form-label">Service Details</label>
+            <input type="text" id="service" class="form-control">
+          </div>
+
+          <!-- WB -->
+          <div id="wbBox" class="mb-3 d-none">
+            <label class="form-label">WB</label>
+            <input type="text" id="wb" class="form-control">
+          </div>
+
+          <!-- Consumption -->
+          <div id="consumedBox" class="mb-3 d-none">
+            <label class="form-label">Consumption</label>
+            <input type="text" id="consumed" class="form-control">
+          </div>
+
+          <!-- LEAVE -->
+          <div id="fromBox" class="mb-3 d-none">
+            <label class="form-label">From Date</label>
+            <input type="date" id="fromdate" class="form-control">
+          </div>
+
+          <div id="toBox" class="mb-3 d-none">
+            <label class="form-label">To Date</label>
+            <input type="date" id="todate" class="form-control">
+          </div>
+
+          <div id="leaveCountBox" class="mb-3 d-none">
+            <label class="form-label">Total Leave</label>
+            <input type="text" id="leaveCount" class="form-control" readonly>
+          </div>
+
+          <div id="leaveRemarkBox" class="mb-3 d-none">
+            <label class="form-label">Leave Remark</label>
+            <input type="text" id="leaveRemark" class="form-control">
+          </div>
+
+          <button id="submitBtn" onclick="submitData()" class="btn btn-primary w-100 d-none">
+            <span id="btnText">Submit</span>
+            <span id="btnSpin" class="spinner-border spinner-border-sm d-none"></span>
+          </button>
+
+        </div>
+      </div>
 
     </div>
+
   </div>
 
-</div>
+  <script>
 
-</div>
+    const url = "https://script.google.com/macros/s/AKfycbxK38ycMN6De51v0bF7qSyeY0bEGvYhG9ga45NOHaKn79vlNKRLcJ0QBJO__rjDDVWe/exec";
 
-<script>
+    document.addEventListener("DOMContentLoaded", function () {
 
-const url = "https://script.google.com/macros/s/AKfycbzVj4m4Zj_EePOd_2BHbNgQA8WDSZrgVh4e4XSB0RIf85qoOBGxCk-03gAS2ykIlpDN/exec";
+      let today = new Date().toISOString().split('T')[0];
 
-document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("date").value = today;
+      document.getElementById("fromdate").value = today;
 
-  let today = new Date().toISOString().split('T')[0];
+      // ⚠️ todate optional (LEAVE में user choose करे तो better)
+      document.getElementById("todate").value = today;
 
-  document.getElementById("date").value = today;
-  document.getElementById("fromdate").value = today;
+    });
 
-  // ⚠️ todate optional (LEAVE में user choose करे तो better)
-  document.getElementById("todate").value = today;
+    /* ================= LOGIN ================= */
+    let empName = "";   // ✅ add this global variable
+    let empID = "";
+    function login() {
 
-});
+      let btn = document.getElementById("loginBtn");
+      let text = document.getElementById("loginText");
+      let spin = document.getElementById("loginSpin");
 
-/* ================= LOGIN ================= */
-let empName = "";   // ✅ add this global variable
-let empID = "";
-function login(){
+      // show spinner
+      btn.disabled = true;
+      text.innerText = "Logging...";
+      spin.classList.remove("d-none");
 
-  let btn = document.getElementById("loginBtn");
-  let text = document.getElementById("loginText");
-  let spin = document.getElementById("loginSpin");
+      fetch(url, {
+        method: "POST",
+        body: JSON.stringify({
+          action: "login",
+          username: username.value,
+          password: password.value
+        })
+      })
+        .then(res => res.json())
+        .then(res => {
 
-  // show spinner
-  btn.disabled = true;
-  text.innerText = "Logging...";
-  spin.classList.remove("d-none");
+          btn.disabled = false;
+          text.innerText = "Login";
+          spin.classList.add("d-none");
 
-  fetch(url,{
-    method:"POST",
-    body:JSON.stringify({
-      action:"login",
-      username: username.value,
-      password: password.value
-    })
-  })
-  .then(res => res.json())
-  .then(res => {
+          if (res.status == "success") {
 
-    btn.disabled = false;
-    text.innerText = "Login";
-    spin.classList.add("d-none");
+            empID = res.Emp_ID;
+            empName = res.name;
 
-    if(res.status == "success"){
+            Swal.fire("Login Success", "Welcome " + res.name, "success");
 
-      empID = res.Emp_ID;
-      empName = res.name;
+            document.getElementById("loginBox").classList.add("d-none");
+            document.getElementById("formBox").classList.remove("d-none");
 
-      Swal.fire("Login Success", "Welcome " + res.name, "success");
+          } else {
+            Swal.fire("Invalid Login ❌", "", "error");
+          }
 
-      document.getElementById("loginBox").classList.add("d-none");
-      document.getElementById("formBox").classList.remove("d-none");
+        })
+        .catch(() => {
 
-    } else {
-      Swal.fire("Invalid Login ❌", "", "error");
+          btn.disabled = false;
+          text.innerText = "Login";
+          spin.classList.add("d-none");
+
+          Swal.fire("Server Error ❌", "", "error");
+        });
+
     }
 
-  })
-  .catch(() => {
+    /* ================= TOGGLE ================= */
+    function toggleFields() {
 
-    btn.disabled = false;
-    text.innerText = "Login";
-    spin.classList.add("d-none");
+      clearFields(); // ✅ CALL HERE
 
-    Swal.fire("Server Error ❌", "", "error");
-  });
+      let t = document.getElementById("type").value;
 
-}
+      let ids = [
+        "dateBox", "locationBox", "reasonBox", "serviceBox", "wbBox",
+        "consumedBox", "fromBox", "toBox", "leaveCountBox", "leaveRemarkBox"
+      ];
 
-/* ================= TOGGLE ================= */
-function toggleFields(){
+      ids.forEach(id => {
+        document.getElementById(id).classList.add("d-none");
+      });
 
-  // ✅ CLEAR ALL INPUTS
-  document.querySelectorAll("input").forEach(input => {
-    if(input.type !== "date") {
-      input.value = "";
+      document.getElementById("submitBtn").classList.remove("d-none");
+
+      if (t == "ONVISIT") {
+        document.getElementById("dateBox").classList.remove("d-none");
+        document.getElementById("locationBox").classList.remove("d-none");
+        document.getElementById("reasonBox").classList.remove("d-none");
+        document.getElementById("serviceBox").classList.remove("d-none");
+        document.getElementById("wbBox").classList.remove("d-none");
+        document.getElementById("consumedBox").classList.remove("d-none");
+      }
+
+      if (t == "NOVISIT") {
+        document.getElementById("dateBox").classList.remove("d-none");
+      }
+
+      if (t == "LEAVE") {
+        document.getElementById("fromBox").classList.remove("d-none");
+        document.getElementById("toBox").classList.remove("d-none");
+        document.getElementById("leaveCountBox").classList.remove("d-none");
+        document.getElementById("leaveRemarkBox").classList.remove("d-none");
+      }
+
+      if (t == "TOUR") {
+        document.getElementById("dateBox").classList.remove("d-none");
+        document.getElementById("locationBox").classList.remove("d-none");
+        document.getElementById("reasonBox").classList.remove("d-none");
+      }
     }
-  });
 
-  // date fields ko reset karna ho toh ye use karo
-  let today = new Date().toISOString().split('T')[0];
-  document.getElementById("date").value = today;
-  document.getElementById("fromdate").value = today;
-  document.getElementById("todate").value = today;
+    /* ================= LEAVE CALC ================= */
+    document.getElementById("fromdate").onchange =
+      document.getElementById("todate").onchange = function () {
 
-  document.getElementById("leaveCount").value = "";
+        if (fromdate.value && todate.value) {
+          let d1 = new Date(fromdate.value);
+          let d2 = new Date(todate.value);
 
-  let t = document.getElementById("type").value;
+          document.getElementById("leaveCount").value =
+            (d2 - d1) / (1000 * 60 * 60 * 24) + 1;
+        }
+      };
 
-  let ids = [
-    "dateBox","locationBox","reasonBox","serviceBox","wbBox",
-    "consumedBox","fromBox","toBox","leaveCountBox","leaveRemarkBox"
-  ];
+    /* ================= SUBMIT ================= */
+    function submitData() {
+      if (!type.value) {
+        Swal.fire("Please select Type ❌");
+        return;
+      }
+      let btn = document.getElementById("submitBtn");
+      let text = document.getElementById("btnText");
+      let spin = document.getElementById("btnSpin");
 
-  ids.forEach(id=>{
-    document.getElementById(id).classList.add("d-none");
-  });
+      btn.disabled = true;
+      text.innerText = "Saving...";
+      spin.classList.remove("d-none");
 
-  document.getElementById("submitBtn").classList.remove("d-none");
+      // ================= LEAVE CALC =================
+      let leaveDays = "";
 
-  if(t=="ONVISIT"){
-    document.getElementById("dateBox").classList.remove("d-none");
-    document.getElementById("locationBox").classList.remove("d-none");
-    document.getElementById("reasonBox").classList.remove("d-none");
-    document.getElementById("serviceBox").classList.remove("d-none");
-    document.getElementById("wbBox").classList.remove("d-none");
-    document.getElementById("consumedBox").classList.remove("d-none");
-  }
+      if (type.value == "LEAVE" && fromdate.value && todate.value) {
+        let d1 = new Date(fromdate.value);
+        let d2 = new Date(todate.value);
+        leaveDays = (d2 - d1) / (1000 * 60 * 60 * 24) + 1;
+      }
 
-  if(t=="NOVISIT"){
-    document.getElementById("dateBox").classList.remove("d-none");
-  }
+      // ================= FROMDATE FIX (ADDED THIS) =================
+      let fromDateValue = "";
 
-  if(t=="LEAVE"){
-    document.getElementById("fromBox").classList.remove("d-none");
-    document.getElementById("toBox").classList.remove("d-none");
-    document.getElementById("leaveCountBox").classList.remove("d-none");
-    document.getElementById("leaveRemarkBox").classList.remove("d-none");
-  }
+      if (type.value == "LEAVE") {
+        fromDateValue = fromdate.value || "";
+      }
+      else {
+        fromDateValue = document.getElementById("date").value || "";
+      }
 
-  if(t=="TOUR"){
-    document.getElementById("dateBox").classList.remove("d-none");
-    document.getElementById("locationBox").classList.remove("d-none");
-    document.getElementById("reasonBox").classList.remove("d-none");
-  }
-}
+      // ================= FINAL DATA =================
+      let data = {
+        EmpID: empName,   // ✅ FIXED (better)
 
-/* ================= LEAVE CALC ================= */
-document.getElementById("fromdate").onchange =
-document.getElementById("todate").onchange = function(){
+        Type: type.value,
 
-  if(fromdate.value && todate.value){
-    let d1 = new Date(fromdate.value);
-    let d2 = new Date(todate.value);
+        Reason: type.value == "LEAVE"
+          ? leaveRemark.value || ""
+          : reason.value || "",
 
-    document.getElementById("leaveCount").value =
-      (d2 - d1) / (1000*60*60*24) + 1;
-  }
-};
+        ServiceDetails: service.value || "",
+        Location: location.value || "",
+        WB: wb.value || "",
+        ConsumedItems: consumed.value || "",
 
-/* ================= SUBMIT ================= */
-function submitData(){
-    if(!type.value){
-    Swal.fire("Please select Type ❌");
-    return;
+        // ✅ ADDED FIX HERE
+        FromDate: fromDateValue,
+
+        ToDate: type.value == "LEAVE"
+          ? todate.value || ""
+          : "",
+
+        Total_Leave: type.value == "LEAVE" ? leaveDays : ""
+      };
+
+      // ================= SEND =================
+      fetch(url, {
+        method: "POST",
+        body: JSON.stringify(data)
+      })
+        .then(res => res.text())
+        .then(res => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Saved!',
+            text: 'Data saved successfully ✅',
+            timer: 2000,
+            showConfirmButton: false
+          });
+
+          type.value = "";
+          toggleFields();
+        })
+        .catch(() => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error ❌',
+            text: 'Try again',
+            confirmButtonText: 'OK'
+          });
+
+        })
+        .finally(() => {
+          btn.disabled = false;
+          text.innerText = "Submit";
+          spin.classList.add("d-none");
+        });
+
     }
-  let btn = document.getElementById("submitBtn");
-  let text = document.getElementById("btnText");
-  let spin = document.getElementById("btnSpin");
 
-  btn.disabled = true;
-  text.innerText = "Saving...";
-  spin.classList.remove("d-none");
+    function clearFields() {
+      let ids = [
+        "date", "location", "reason", "service", "wb",
+        "consumed", "fromdate", "todate", "leaveCount", "leaveRemark"
+      ];
 
-  // ================= LEAVE CALC =================
-  let leaveDays = "";
+      ids.forEach(id => {
+        let el = document.getElementById(id);
+        if (el) el.value = "";
+      });
 
-  if(type.value == "LEAVE" && fromdate.value && todate.value){
-    let d1 = new Date(fromdate.value);
-    let d2 = new Date(todate.value);
-    leaveDays = (d2 - d1) / (1000 * 60 * 60 * 24) + 1;
-  }
+      let today = new Date().toISOString().split('T')[0];
+      document.getElementById("date").value = today;
+      document.getElementById("fromdate").value = today;
+      document.getElementById("todate").value = today;
 
-  // ================= FROMDATE FIX (ADDED THIS) =================
-  let fromDateValue = "";
+    }
 
-  if(type.value == "LEAVE"){
-    fromDateValue = fromdate.value || "";
-  }
-  else{
-    fromDateValue = document.getElementById("date").value || "";
-  }
-
-  // ================= FINAL DATA =================
-  let data = {
-    EmpID: empName,   // ✅ FIXED (better)
-
-    Type: type.value,
-
-    Reason: type.value == "LEAVE"
-      ? leaveRemark.value || ""
-      : reason.value || "",
-
-    ServiceDetails: service.value || "",
-    Location: location.value || "",
-    WB: wb.value || "",
-    ConsumedItems: consumed.value || "",
-
-    // ✅ ADDED FIX HERE
-    FromDate: fromDateValue,
-
-    ToDate: type.value == "LEAVE"
-      ? todate.value || ""
-      : "",
-
-    Total_Leave: type.value == "LEAVE" ? leaveDays : ""
-  };
-
-  // ================= SEND =================
-  fetch(url, {
-    method: "POST",
-    body: JSON.stringify(data)
-  })
-  .then(res => res.text())
-  .then(res => {
-    Swal.fire("Saved Successfully ✅");
-
-    type.value = "";
-    toggleFields();
-  })
-  .catch(() => {
-    Swal.fire("Error ❌", "Try again", "error");
-  })
-  .finally(() => {
-    btn.disabled = false;
-    text.innerText = "Submit";
-    spin.classList.add("d-none");
-  });
-
-}
-
-</script>
+  </script>
 
 </body>
+
 </html>
