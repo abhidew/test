@@ -11,410 +11,287 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
-    body {
-      background: #eef2f7;
-    }
-
-    .box {
-      max-width: 650px;
-      margin: auto;
-      margin-top: 40px;
-    }
-
-    .card {
-      padding: 28px;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    }
-
-    h4 {
-      font-size: 24px;
-      font-weight: 600;
-    }
-
-    .form-control,
-    .form-select {
-      height: 48px;
-      font-size: 16px;
-    }
-
-    .btn {
-      height: 48px;
-      font-size: 16px;
-      font-weight: 600;
-    }
-
-    label {
-      font-weight: 500;
-      margin-bottom: 6px;
-    }
-
-    #loginBox {
-      padding: 35px;
-    }
-
-    #formBox .card {
-      padding: 35px;
-    }
-
-    .spinner-border {
-      width: 1.2rem;
-      height: 1.2rem;
-    }
+    body { background: #eef2f7; }
+    .box { max-width: 650px; margin: auto; margin-top: 40px; }
+    .card { padding: 28px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
+    h4 { font-size: 24px; font-weight: 600; }
+    .form-control,.form-select { height: 48px; font-size: 16px; }
+    .btn { height: 48px; font-size: 16px; font-weight: 600; }
+    label { font-weight: 500; margin-bottom: 6px; }
+    .spinner-border { width: 1.2rem; height: 1.2rem; }
   </style>
 </head>
 
 <body>
 
-  <div class="box">
+<div class="box">
 
-    <!-- ================= LOGIN ================= -->
-    <div class="card" id="loginBox">
-      <h4>Login</h4>
+  <!-- LOGIN -->
+  <div class="card" id="loginBox">
+    <h4>Login</h4>
+    <input id="username" class="form-control mt-2" placeholder="Username">
+    <input id="password" type="password" class="form-control mt-2" placeholder="Password">
 
-      <input id="username" class="form-control mt-2" placeholder="Username">
-      <input id="password" type="password" class="form-control mt-2" placeholder="Password">
-
-      <button id="loginBtn" class="btn btn-primary w-100 mt-3" onclick="login()">
-        <span id="loginText">Login</span>
-        <span id="loginSpin" class="spinner-border spinner-border-sm d-none"></span>
-      </button>
-    </div>
-
-    <!-- ================= FORM ================= -->
-    <div id="formBox" class="d-none">
-
-      <div class="container mt-5">
-        <div class="card shadow p-4">
-          <h4 class="mb-4">Employee Form</h4>
-
-          <!-- Type -->
-          <label class="form-label">Type</label>
-          <select id="type" class="form-select mb-3" onchange="toggleFields()">
-            <option value="" selected disabled>-- Select Option --</option>
-            <option value="ONVISIT">On Visit</option>
-            <option value="NOVISIT">No Visit</option>
-            <option value="LEAVE">Leave</option>
-            <option value="TOUR">Tour</option>
-          </select>
-
-          <!-- ONVISIT / NOVISIT DATE -->
-          <div id="dateBox" class="mb-3 d-none">
-            <label class="form-label">Date</label>
-            <input type="date" id="date" class="form-control">
-          </div>
-
-          <!-- Location -->
-          <div id="locationBox" class="mb-3 d-none">
-            <label class="form-label">Location/Area</label>
-            <input type="text" id="location" class="form-control">
-          </div>
-
-          <!-- WB -->
-          <div id="wbBox" class="mb-3 d-none">
-            <label class="form-label">Weighbridge Details</label>
-            <input type="text" id="wb" class="form-control">
-          </div>
-
-          <!-- Remark -->
-          <div id="reasonBox" class="mb-3 d-none">
-            <label class="form-label">Reason</label>
-            <input type="text" id="reason" class="form-control">
-          </div>
-
-          <!-- Service -->
-          <div id="serviceBox" class="mb-3 d-none">
-            <label class="form-label">Service Details</label>
-            <input type="text" id="service" class="form-control">
-          </div>
-
-
-          <!-- Consumption -->
-          <div id="consumedBox" class="mb-3 d-none">
-            <label class="form-label">Consumption</label>
-            <input type="text" id="consumed" class="form-control">
-          </div>
-
-          <!-- LEAVE -->
-          <div id="fromBox" class="mb-3 d-none">
-            <label class="form-label">From Date</label>
-            <input type="date" id="fromdate" class="form-control">
-          </div>
-
-          <div id="toBox" class="mb-3 d-none">
-            <label class="form-label">To Date</label>
-            <input type="date" id="todate" class="form-control">
-          </div>
-
-          <div id="leaveCountBox" class="mb-3 d-none">
-            <label class="form-label">Total Leave</label>
-            <input type="text" id="leaveCount" class="form-control" readonly>
-          </div>
-
-          <div id="leaveRemarkBox" class="mb-3 d-none">
-            <label class="form-label">Leave Remark</label>
-            <input type="text" id="leaveRemark" class="form-control">
-          </div>
-
-          <button id="submitBtn" onclick="submitData()" class="btn btn-primary w-100 d-none">
-            <span id="btnText">Submit</span>
-            <span id="btnSpin" class="spinner-border spinner-border-sm d-none"></span>
-          </button>
-
-        </div>
-      </div>
-
-    </div>
-
+    <button id="loginBtn" class="btn btn-primary w-100 mt-3" onclick="login()">
+      <span id="loginText">Login</span>
+      <span id="loginSpin" class="spinner-border spinner-border-sm d-none"></span>
+    </button>
   </div>
 
-  <script>
+  <!-- FORM -->
+  <div id="formBox" class="d-none">
+    <div class="card mt-4">
+      <h4 class="mb-4">Employee Form</h4>
 
-    const url = "https://script.google.com/macros/s/AKfycbxK38ycMN6De51v0bF7qSyeY0bEGvYhG9ga45NOHaKn79vlNKRLcJ0QBJO__rjDDVWe/exec";
+      <label>Type</label>
+      <select id="type" class="form-select mb-3" onchange="toggleFields()">
+        <option value="" disabled selected>-- Select Option --</option>
+        <option value="ONVISIT">On Visit</option>
+        <option value="NOVISIT">No Visit</option>
+        <option value="LEAVE">Leave</option>
+        <option value="OFFICE">Head Office</option>
+      </select>
 
-    document.addEventListener("DOMContentLoaded", function () {
+      <div id="dateBox" class="mb-3 d-none">
+        <label>Date</label>
+        <input type="date" id="date" class="form-control">
+      </div>
 
-      let today = new Date().toISOString().split('T')[0];
+      <div id="locationBox" class="mb-3 d-none">
+        <label>Location/Area</label>
+        <input type="text" id="loc" class="form-control">
+      </div>
 
-      document.getElementById("date").value = today;
-      document.getElementById("fromdate").value = today;
+      <div id="wbBox" class="mb-3 d-none">
+        <label>WeighBridge Detail</label>
+        <input type="text" id="wb" class="form-control">
+      </div>
 
-      // ⚠️ todate optional (LEAVE में user choose करे तो better)
-      document.getElementById("todate").value = today;
+      <div id="reasonBox" class="mb-3 d-none">
+        <label>Reason</label>
+        <input type="text" id="reason" class="form-control">
+      </div>
 
-    });
+      <div id="serviceBox" class="mb-3 d-none">
+        <label>Service Detail</label>
+        <input type="text" id="service" class="form-control">
+      </div>
+     
 
-    /* ================= LOGIN ================= */
-    let empName = "";   // ✅ add this global variable
-    let empID = "";
-    function login() {
+      <div id="consumedBox" class="mb-3 d-none">
+        <label>Spare Consumption</label>
+        <input type="text" id="consumed" class="form-control">
+      </div>
 
-      if (!username.value.trim() || !password.value.trim()) {
+      <div id="fromBox" class="mb-3 d-none">
+        <label>From Date</label>
+        <input type="date" id="fromdate" class="form-control">
+      </div>
+
+      <div id="toBox" class="mb-3 d-none">
+        <label>To Date</label>
+        <input type="date" id="todate" class="form-control">
+      </div>
+
+      <div id="leaveCountBox" class="mb-3 d-none">
+        <label>Total Leave</label>
+        <input type="text" id="leaveCount" class="form-control" readonly>
+      </div>
+
+      <div id="leaveRemarkBox" class="mb-3 d-none">
+        <label>Leave Remark</label>
+        <input type="text" id="leaveRemark" class="form-control">
+      </div>
+
+      <button id="submitBtn" onclick="submitData()" class="btn btn-primary w-100 d-none">
+        <span id="btnText">Submit</span>
+        <span id="btnSpin" class="spinner-border spinner-border-sm d-none"></span>
+      </button>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+
+ const url = "https://script.google.com/macros/s/AKfycbxK38ycMN6De51v0bF7qSyeY0bEGvYhG9ga45NOHaKn79vlNKRLcJ0QBJO__rjDDVWe/exec";
+
+
+let empName = "";
+
+// Default date
+document.addEventListener("DOMContentLoaded", () => {
+  let today = new Date().toISOString().split('T')[0];
+  date.value = today;
+  fromdate.value = today;
+  todate.value = today;
+});
+
+// LOGIN
+function login() {
+
+  if (!username.value.trim() || !password.value.trim()) {
         Swal.fire("Error ❌", "Username & Password required", "error");
         return;
       }
 
-      let btn = document.getElementById("loginBtn");
-      let text = document.getElementById("loginText");
-      let spin = document.getElementById("loginSpin");
+  let btn = document.getElementById("loginBtn");
+  let text = document.getElementById("loginText");
+  let spin = document.getElementById("loginSpin");
 
-      // show spinner
-      btn.disabled = true;
-      text.innerText = "Logging...";
-      spin.classList.remove("d-none");
+  // ✅ START
+  btn.disabled = true;
+  text.innerText = "Logging...";
+  spin.classList.remove("d-none");
 
-      fetch(url, {
-        method: "POST",
-        body: JSON.stringify({
-          action: "login",
-          username: username.value,
-          password: password.value
-        })
-      })
-        .then(res => res.json())
-        .then(res => {
-
-          btn.disabled = false;
-          text.innerText = "Login";
-          spin.classList.add("d-none");
-
-          if (res.status == "success") {
-
-            empID = res.Emp_ID;
-            empName = res.name;
-
-            Swal.fire("Login Success", "Welcome " + res.name, "success");
-
-            document.getElementById("loginBox").classList.add("d-none");
-            document.getElementById("formBox").classList.remove("d-none");
-
-          } else {
-            Swal.fire("Invalid Login ❌", "", "error");
-          }
-
-        })
-        .catch(() => {
-
-          btn.disabled = false;
-          text.innerText = "Login";
-          spin.classList.add("d-none");
-
-          Swal.fire("Server Error ❌", "", "error");
-        });
-
+  fetch(url,{
+    method:"POST",
+    body:JSON.stringify({
+      action:"login",
+      username:username.value,
+      password:password.value
+    })
+  })
+  .then(res=>res.json())
+  .then(res=>{
+    if(res.status=="success"){
+      empName = res.name;
+      loginBox.classList.add("d-none");
+      formBox.classList.remove("d-none");
+      Swal.fire("Welcome "+res.name,"","success");
+    } else {
+      Swal.fire("Invalid Login","","error");
     }
+  })
+  .catch(()=>{
+    Swal.fire("Server Error","","error");
+  })
+  .finally(()=>{
+    // ✅ STOP
+    btn.disabled = false;
+    text.innerText = "Login";
+    spin.classList.add("d-none");
+  });
+}
 
-    /* ================= TOGGLE ================= */
-    function toggleFields() {
+// TOGGLE
+function toggleFields(){
+  clearFields();
 
-      clearFields(); // ✅ CALL HERE
+  let t = type.value;
 
-      let t = document.getElementById("type").value;
+  let all = ["dateBox","locationBox","reasonBox","serviceBox","wbBox","consumedBox","fromBox","toBox","leaveCountBox","leaveRemarkBox"];
+  all.forEach(id=>document.getElementById(id).classList.add("d-none"));
 
-      let ids = [
-        "dateBox", "locationBox", "reasonBox", "serviceBox", "wbBox",
-        "consumedBox", "fromBox", "toBox", "leaveCountBox", "leaveRemarkBox"
-      ];
+  submitBtn.classList.remove("d-none");
 
-      ids.forEach(id => {
-        document.getElementById(id).classList.add("d-none");
-      });
+  if(t=="ONVISIT"){
+    dateBox.classList.remove("d-none");
+    locationBox.classList.remove("d-none");
+    reasonBox.classList.remove("d-none");
+    serviceBox.classList.remove("d-none");
+    wbBox.classList.remove("d-none");
+    consumedBox.classList.remove("d-none");
+  }
 
-      document.getElementById("submitBtn").classList.remove("d-none");
+  if(t=="NOVISIT"){
+    dateBox.classList.remove("d-none");
+  }
 
-      if (t == "ONVISIT") {
-        document.getElementById("dateBox").classList.remove("d-none");
-        document.getElementById("locationBox").classList.remove("d-none");
-        document.getElementById("reasonBox").classList.remove("d-none");
-        document.getElementById("serviceBox").classList.remove("d-none");
-        document.getElementById("wbBox").classList.remove("d-none");
-        document.getElementById("consumedBox").classList.remove("d-none");
-      }
+  if(t=="LEAVE"){
+    fromBox.classList.remove("d-none");
+    toBox.classList.remove("d-none");
+    leaveCountBox.classList.remove("d-none");
+    leaveRemarkBox.classList.remove("d-none");
+  }
 
-      if (t == "NOVISIT") {
-        document.getElementById("dateBox").classList.remove("d-none");
-      }
+  if(t=="OFFICE"){
+    dateBox.classList.remove("d-none");
+  ///  locationBox.classList.remove("d-none");
+  ///  reasonBox.classList.remove("d-none");
+  }
+}
 
-      if (t == "LEAVE") {
-        document.getElementById("fromBox").classList.remove("d-none");
-        document.getElementById("toBox").classList.remove("d-none");
-        document.getElementById("leaveCountBox").classList.remove("d-none");
-        document.getElementById("leaveRemarkBox").classList.remove("d-none");
-      }
+// LEAVE CALC
+fromdate.onchange = todate.onchange = ()=>{
+  if(fromdate.value && todate.value){
+    let d1=new Date(fromdate.value);
+    let d2=new Date(todate.value);
+    leaveCount.value=(d2-d1)/(1000*60*60*24)+1;
+  }
+};
 
-      if (t == "TOUR") {
-        document.getElementById("dateBox").classList.remove("d-none");
-        document.getElementById("locationBox").classList.remove("d-none");
-        document.getElementById("reasonBox").classList.remove("d-none");
-      }
-    }
+// SUBMIT
+function submitData(){
 
-    /* ================= LEAVE CALC ================= */
-    document.getElementById("fromdate").onchange =
-      document.getElementById("todate").onchange = function () {
+  if (!type.value) {
+    Swal.fire("Please select Type ❌");
+    return;
+  }
 
-        if (fromdate.value && todate.value) {
-          let d1 = new Date(fromdate.value);
-          let d2 = new Date(todate.value);
+  let btn = document.getElementById("submitBtn");
+  let text = document.getElementById("btnText");
+  let spin = document.getElementById("btnSpin");
 
-          document.getElementById("leaveCount").value =
-            (d2 - d1) / (1000 * 60 * 60 * 24) + 1;
-        }
-      };
+  // ✅ START
+  btn.disabled = true;
+  text.innerText = "Saving...";
+  spin.classList.remove("d-none");
 
-    /* ================= SUBMIT ================= */
-    function submitData() {
-      if (!type.value) {
-        Swal.fire("Please select Type ❌");
-        return;
-      }
-      let btn = document.getElementById("submitBtn");
-      let text = document.getElementById("btnText");
-      let spin = document.getElementById("btnSpin");
+  let leaveDays="";
+  if(type.value=="LEAVE"){
+    let d1=new Date(fromdate.value);
+    let d2=new Date(todate.value);
+    leaveDays=(d2-d1)/(1000*60*60*24)+1;
+  }
 
-      btn.disabled = true;
-      text.innerText = "Saving...";
-      spin.classList.remove("d-none");
+  let data={
+    EmpID:empName,
+    Type:type.value,
+    Reason:type.value=="LEAVE"?leaveRemark.value:reason.value,
+    ServiceDetails:service.value,
 
-      // ================= LEAVE CALC =================
-      let leaveDays = "";
+    FromDate:type.value=="LEAVE"?fromdate.value:date.value,
+    ToDate:type.value=="LEAVE"?todate.value:"",
 
-      if (type.value == "LEAVE" && fromdate.value && todate.value) {
-        let d1 = new Date(fromdate.value);
-        let d2 = new Date(todate.value);
-        leaveDays = (d2 - d1) / (1000 * 60 * 60 * 24) + 1;
-      }
+    Location:document.getElementById("loc").value,
 
-      // ================= FROMDATE FIX (ADDED THIS) =================
-      let fromDateValue = "";
+    WB:wb.value,
+    ConsumedItems:consumed.value,
+    Total_Leave:type.value=="LEAVE"?leaveDays:""
+  };
 
-      if (type.value == "LEAVE") {
-        fromDateValue = fromdate.value || "";
-      }
-      else {
-        fromDateValue = document.getElementById("date").value || "";
-      }
+  fetch(url,{
+    method:"POST",
+    body:JSON.stringify(data)
+  })
+  .then(()=>{
+    Swal.fire("Saved!","","success");
+    type.value="";
+    toggleFields();
+  })
+  .catch(()=>{
+    Swal.fire("Error ❌","Try again","error");
+  })
+  .finally(()=>{
+    // ✅ STOP
+    btn.disabled = false;
+    text.innerText = "Submit";
+    spin.classList.add("d-none");
+  });
+}
 
-      // ================= FINAL DATA =================
-      let data = {
-        EmpID: empName,   // ✅ FIXED (better)
+// CLEAR
+function clearFields(){
+  ["date","loc","reason","service","wb","consumed","fromdate","todate","leaveCount","leaveRemark"]
+  .forEach(id=>document.getElementById(id).value="");
 
-        Type: type.value,
+  let today=new Date().toISOString().split('T')[0];
+  date.value=fromdate.value=todate.value=today;
+}
 
-        Reason: type.value == "LEAVE"
-          ? leaveRemark.value || ""
-          : reason.value || "",
-
-        ServiceDetails: service.value || "",
-        Location: location.value || "",
-        WB: wb.value || "",
-        ConsumedItems: consumed.value || "",
-
-        // ✅ ADDED FIX HERE
-        FromDate: fromDateValue,
-
-        ToDate: type.value == "LEAVE"
-          ? todate.value || ""
-          : "",
-
-        Total_Leave: type.value == "LEAVE" ? leaveDays : ""
-      };
-
-      // ================= SEND =================
-      fetch(url, {
-        method: "POST",
-        body: JSON.stringify(data)
-      })
-        .then(res => res.text())
-        .then(res => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Saved!',
-            text: 'Data saved successfully ✅',
-            timer: 2000,
-            showConfirmButton: false
-          });
-
-          type.value = "";
-          toggleFields();
-        })
-        .catch(() => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error ❌',
-            text: 'Try again',
-            confirmButtonText: 'OK'
-          });
-
-        })
-        .finally(() => {
-          btn.disabled = false;
-          text.innerText = "Submit";
-          spin.classList.add("d-none");
-        });
-
-    }
-
-    function clearFields() {
-      let ids = [
-        "date", "location", "reason", "service", "wb",
-        "consumed", "fromdate", "todate", "leaveCount", "leaveRemark"
-      ];
-
-      ids.forEach(id => {
-        let el = document.getElementById(id);
-        if (el) el.value = "";
-      });
-
-      let today = new Date().toISOString().split('T')[0];
-      document.getElementById("date").value = today;
-      document.getElementById("fromdate").value = today;
-      document.getElementById("todate").value = today;
-
-    }
-
-  </script>
+</script>
 
 </body>
-
 </html>
