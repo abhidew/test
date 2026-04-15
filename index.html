@@ -187,7 +187,10 @@
     let empName = "";   // ✅ add this global variable
     let empID = "";
     function login() {
-
+      if (!username.value.trim() || !password.value.trim()) {
+    Swal.fire("Error ❌", "Username & Password required", "error");
+    return;
+  }
       let btn = document.getElementById("loginBtn");
       let text = document.getElementById("loginText");
       let spin = document.getElementById("loginSpin");
