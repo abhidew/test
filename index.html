@@ -238,6 +238,21 @@ function login(){
 /* ================= TOGGLE ================= */
 function toggleFields(){
 
+  // ✅ CLEAR ALL INPUTS
+  document.querySelectorAll("input").forEach(input => {
+    if(input.type !== "date") {
+      input.value = "";
+    }
+  });
+
+  // date fields ko reset karna ho toh ye use karo
+  let today = new Date().toISOString().split('T')[0];
+  document.getElementById("date").value = today;
+  document.getElementById("fromdate").value = today;
+  document.getElementById("todate").value = today;
+
+  document.getElementById("leaveCount").value = "";
+
   let t = document.getElementById("type").value;
 
   let ids = [
