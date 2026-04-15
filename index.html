@@ -3,8 +3,6 @@
 
 <head>
   <title>Employee Login + Form</title>
-  <link rel="icon" type="image/x-icon" href="./24-hours-support.ico">
-  <link rel="manifest" href="manifest.json">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -12,13 +10,8 @@
 
   <style>
     body { background: #eef2f7; }
-    .box { max-width: 650px; margin: auto; margin-top: 40px; }
-    .card { padding: 28px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
-    h4 { font-size: 24px; font-weight: 600; }
-    .form-control,.form-select { height: 48px; font-size: 16px; }
-    .btn { height: 48px; font-size: 16px; font-weight: 600; }
-    label { font-weight: 500; margin-bottom: 6px; }
-    .spinner-border { width: 1.2rem; height: 1.2rem; }
+    .box { max-width: 700px; margin: auto; margin-top: 40px; }
+    .card { padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
   </style>
 </head>
 
@@ -29,84 +22,70 @@
   <!-- LOGIN -->
   <div class="card" id="loginBox">
     <h4>Login</h4>
+    <label for="">Username</label>
     <input id="username" class="form-control mt-2" placeholder="Username">
+    <label for="">Password</label>
     <input id="password" type="password" class="form-control mt-2" placeholder="Password">
 
     <button id="loginBtn" class="btn btn-primary w-100 mt-3" onclick="login()">
       <span id="loginText">Login</span>
-      <span id="loginSpin" class="spinner-border spinner-border-sm d-none"></span>
+      <span id="loginSpinner" class="spinner-border spinner-border-sm d-none"></span>
     </button>
   </div>
 
   <!-- FORM -->
   <div id="formBox" class="d-none">
     <div class="card mt-4">
-      <h4 class="mb-4">Employee Form</h4>
+      <h4 class="mb-3">Employee Form</h4>
 
-      <label>Type</label>
       <select id="type" class="form-select mb-3" onchange="toggleFields()">
-        <option value="" disabled selected>-- Select Option --</option>
+        <option value="" disabled selected>Select</option>
         <option value="ONVISIT">On Visit</option>
         <option value="NOVISIT">No Visit</option>
         <option value="LEAVE">Leave</option>
-        <option value="OFFICE">Head Office</option>
+        <option value="OFFICE">Office</option>
+        <option value="REPORT">Report</option>
       </select>
 
-      <div id="dateBox" class="mb-3 d-none">
-        <label>Date</label>
-        <input type="date" id="date" class="form-control">
-      </div>
+      <!-- FORM FIELDS -->
+      <input type="date" id="date" class="form-control mb-2 d-none">
+      <input type="text" id="loc" class="form-control mb-2 d-none" placeholder="Location/Area">
+      <input type="text" id="wb" class="form-control mb-2 d-none" placeholder="Weighbridge Details">
+      <input type="text" id="reason" class="form-control mb-2 d-none" placeholder="Reason">
+      <input type="text" id="service" class="form-control mb-2 d-none" placeholder="Service Details">
+      <input type="text" id="consumed" class="form-control mb-2 d-none" placeholder="Spare Consuption">
 
-      <div id="locationBox" class="mb-3 d-none">
-        <label>Location/Area</label>
-        <input type="text" id="loc" class="form-control">
-      </div>
-
-      <div id="wbBox" class="mb-3 d-none">
-        <label>WeighBridge Detail</label>
-        <input type="text" id="wb" class="form-control">
-      </div>
-
-      <div id="reasonBox" class="mb-3 d-none">
-        <label>Reason</label>
-        <input type="text" id="reason" class="form-control">
-      </div>
-
-      <div id="serviceBox" class="mb-3 d-none">
-        <label>Service Detail</label>
-        <input type="text" id="service" class="form-control">
-      </div>
-     
-
-      <div id="consumedBox" class="mb-3 d-none">
-        <label>Spare Consumption</label>
-        <input type="text" id="consumed" class="form-control">
-      </div>
-
-      <div id="fromBox" class="mb-3 d-none">
-        <label>From Date</label>
-        <input type="date" id="fromdate" class="form-control">
-      </div>
-
-      <div id="toBox" class="mb-3 d-none">
-        <label>To Date</label>
-        <input type="date" id="todate" class="form-control">
-      </div>
-
-      <div id="leaveCountBox" class="mb-3 d-none">
-        <label>Total Leave</label>
-        <input type="text" id="leaveCount" class="form-control" readonly>
-      </div>
-
-      <div id="leaveRemarkBox" class="mb-3 d-none">
-        <label>Leave Remark</label>
-        <input type="text" id="leaveRemark" class="form-control">
-      </div>
+      <!-- LEAVE -->
+      <input type="date" id="fromdate" class="form-control mb-2 d-none">
+      <input type="date" id="todate" class="form-control mb-2 d-none">
+      <input type="text" id="leaveCount" class="form-control mb-2 d-none" readonly placeholder="Total Days">
+      <input type="text" id="leaveRemark" class="form-control mb-2 d-none" placeholder="Leave Remark">
 
       <button id="submitBtn" onclick="submitData()" class="btn btn-primary w-100 d-none">
-        <span id="btnText">Submit</span>
-        <span id="btnSpin" class="spinner-border spinner-border-sm d-none"></span>
+        <span id="submitText">Submit</span>
+        <span id="submitSpinner" class="spinner-border spinner-border-sm d-none"></span>
       </button>
+
+     <div id="reportBox" class="mt-4 d-none">
+
+      <h5>Report Filter</h5>
+
+      <input type="date" id="reportFrom" class="form-control mb-2">
+      <input type="date" id="reportTo" class="form-control mb-2">
+
+      <button class="btn btn-success w-100 mb-3" onclick="getReport()">Search</button>
+
+      <!-- ✅ YAHAN ADD KARO -->
+      <div id="summaryBox" class="mb-2"></div>
+
+      <div class="table-responsive">
+        <table class="table table-bordered table-sm">
+          <thead><tr id="reportHead"></tr></thead>
+          <tbody id="reportData"></tbody>
+        </table>
+      </div>
+
+    </div>
 
     </div>
   </div>
@@ -115,35 +94,25 @@
 
 <script>
 
- const url = "https://script.google.com/macros/s/AKfycbxK38ycMN6De51v0bF7qSyeY0bEGvYhG9ga45NOHaKn79vlNKRLcJ0QBJO__rjDDVWe/exec";
-
-
+const url = "https://script.google.com/macros/s/AKfycbxK38ycMN6De51v0bF7qSyeY0bEGvYhG9ga45NOHaKn79vlNKRLcJ0QBJO__rjDDVWe/exec";
 let empName = "";
 
-// Default date
+// ✅ DEFAULT DATE SET
 document.addEventListener("DOMContentLoaded", () => {
-  let today = new Date().toISOString().split('T')[0];
+  let today = new Date().toISOString().split("T")[0];
   date.value = today;
   fromdate.value = today;
   todate.value = today;
+  reportFrom.value = today;
+  reportTo.value = today;
 });
 
 // LOGIN
-function login() {
+function login(){
 
-  if (!username.value.trim() || !password.value.trim()) {
-        Swal.fire("Error ❌", "Username & Password required", "error");
-        return;
-      }
-
-  let btn = document.getElementById("loginBtn");
-  let text = document.getElementById("loginText");
-  let spin = document.getElementById("loginSpin");
-
-  // ✅ START
-  btn.disabled = true;
-  text.innerText = "Logging...";
-  spin.classList.remove("d-none");
+  loginBtn.disabled = true;
+  loginText.innerText = "Logging...";
+  loginSpinner.classList.remove("d-none");
 
   fetch(url,{
     method:"POST",
@@ -159,129 +128,245 @@ function login() {
       empName = res.name;
       loginBox.classList.add("d-none");
       formBox.classList.remove("d-none");
-      Swal.fire("Welcome "+res.name,"","success");
-    } else {
-      Swal.fire("Invalid Login","","error");
+      Swal.fire("Welcome " + res.name,"","success");
+    }else{
+      Swal.fire("Login Failed","","error");
     }
   })
-  .catch(()=>{
-    Swal.fire("Server Error","","error");
-  })
   .finally(()=>{
-    // ✅ STOP
-    btn.disabled = false;
-    text.innerText = "Login";
-    spin.classList.add("d-none");
+    loginBtn.disabled = false;
+    loginText.innerText = "Login";
+    loginSpinner.classList.add("d-none");
   });
 }
 
 // TOGGLE
 function toggleFields(){
-  clearFields();
-
-  let t = type.value;
-
-  let all = ["dateBox","locationBox","reasonBox","serviceBox","wbBox","consumedBox","fromBox","toBox","leaveCountBox","leaveRemarkBox"];
+  clearFields()
+  let all = ["date","loc","reason","service","wb","consumed","fromdate","todate","leaveCount","leaveRemark","reportBox"];
   all.forEach(id=>document.getElementById(id).classList.add("d-none"));
 
   submitBtn.classList.remove("d-none");
 
-  if(t=="ONVISIT"){
-    dateBox.classList.remove("d-none");
-    locationBox.classList.remove("d-none");
-    reasonBox.classList.remove("d-none");
-    serviceBox.classList.remove("d-none");
-    wbBox.classList.remove("d-none");
-    consumedBox.classList.remove("d-none");
+  if(type.value=="ONVISIT"){
+    date.classList.remove("d-none");
+    loc.classList.remove("d-none");
+    reason.classList.remove("d-none");
+    service.classList.remove("d-none");
+    wb.classList.remove("d-none");
+    consumed.classList.remove("d-none");
   }
 
-  if(t=="NOVISIT"){
-    dateBox.classList.remove("d-none");
+  if(type.value=="NOVISIT" || type.value=="OFFICE"){
+    date.classList.remove("d-none");
   }
 
-  if(t=="LEAVE"){
-    fromBox.classList.remove("d-none");
-    toBox.classList.remove("d-none");
-    leaveCountBox.classList.remove("d-none");
-    leaveRemarkBox.classList.remove("d-none");
+  if(type.value=="LEAVE"){
+    fromdate.classList.remove("d-none");
+    todate.classList.remove("d-none");
+    leaveCount.classList.remove("d-none");
+    leaveRemark.classList.remove("d-none");
   }
 
-  if(t=="OFFICE"){
-    dateBox.classList.remove("d-none");
-  ///  locationBox.classList.remove("d-none");
-  ///  reasonBox.classList.remove("d-none");
+  if(type.value=="REPORT"){
+    reportBox.classList.remove("d-none");
+    submitBtn.classList.add("d-none");
   }
 }
 
-// LEAVE CALC
-fromdate.onchange = todate.onchange = ()=>{
+// ✅ LEAVE CALCULATION
+fromdate.onchange = todate.onchange = function(){
   if(fromdate.value && todate.value){
-    let d1=new Date(fromdate.value);
-    let d2=new Date(todate.value);
-    leaveCount.value=(d2-d1)/(1000*60*60*24)+1;
+    let d1 = new Date(fromdate.value);
+    let d2 = new Date(todate.value);
+    let diff = (d2 - d1)/(1000*60*60*24) + 1;
+    leaveCount.value = diff;
   }
 };
 
 // SUBMIT
 function submitData(){
 
-  if (!type.value) {
-    Swal.fire("Please select Type ❌");
-    return;
-  }
+  submitBtn.disabled = true;
+  submitText.innerText = "Saving...";
+  submitSpinner.classList.remove("d-none");
 
-  let btn = document.getElementById("submitBtn");
-  let text = document.getElementById("btnText");
-  let spin = document.getElementById("btnSpin");
-
-  // ✅ START
-  btn.disabled = true;
-  text.innerText = "Saving...";
-  spin.classList.remove("d-none");
-
-  let leaveDays="";
-  if(type.value=="LEAVE"){
-    let d1=new Date(fromdate.value);
-    let d2=new Date(todate.value);
-    leaveDays=(d2-d1)/(1000*60*60*24)+1;
-  }
-
-  let data={
-    EmpID:empName,
-    Type:type.value,
-    Reason:type.value=="LEAVE"?leaveRemark.value:reason.value,
-    ServiceDetails:service.value,
-
-    FromDate:type.value=="LEAVE"?fromdate.value:date.value,
-    ToDate:type.value=="LEAVE"?todate.value:"",
-
-    Location:document.getElementById("loc").value,
-
-    WB:wb.value,
-    ConsumedItems:consumed.value,
-    Total_Leave:type.value=="LEAVE"?leaveDays:""
-  };
+  let leaveDays = leaveCount.value;
 
   fetch(url,{
     method:"POST",
-    body:JSON.stringify(data)
+    body:JSON.stringify({
+      EmpID:empName,
+      Type:type.value,
+      Reason:type.value=="LEAVE"?leaveRemark.value:reason.value,
+      ServiceDetails:service.value,
+      FromDate:type.value=="LEAVE"?fromdate.value:date.value,
+      ToDate:type.value=="LEAVE"?todate.value:"",
+      Location:loc.value,
+      WB:wb.value,
+      ConsumedItems:consumed.value,
+      Total_Leave:type.value=="LEAVE"?leaveDays:""
+    })
   })
   .then(()=>{
-    Swal.fire("Saved!","","success");
-    type.value="";
-    toggleFields();
-  })
-  .catch(()=>{
-    Swal.fire("Error ❌","Try again","error");
+    Swal.fire("Saved","","success");
   })
   .finally(()=>{
-    // ✅ STOP
-    btn.disabled = false;
-    text.innerText = "Submit";
-    spin.classList.add("d-none");
+    submitBtn.disabled = false;
+    submitText.innerText = "Submit";
+    submitSpinner.classList.add("d-none");
   });
 }
+function getReport(){
 
+  summaryBox.innerHTML = "Loading...";
+
+  fetch(url,{
+    method:"POST",
+    body:JSON.stringify({
+      action:"getReport",
+      EmpID:empName,
+      fromDate:reportFrom.value,
+      toDate:reportTo.value
+    })
+  })
+  .then(res=>res.json())
+  .then(data=>{
+
+    summaryBox.innerHTML = "";
+
+    // ❌ TABLE HIDE
+    reportHead.innerHTML = "";
+    reportData.innerHTML = "";
+
+    if(!data.length){
+      summaryBox.innerHTML = "<b>No Data</b>";
+      return;
+    }
+
+    let summary = {};
+
+    data.forEach(row=>{
+
+      let type = row["Type"] || "UNKNOWN";
+
+      if(!summary[type]){
+        summary[type] = 0;
+      }
+
+      if(type === "LEAVE"){
+        summary[type] += Number(row["Total_Leave"] || 0);
+      }else{
+        summary[type] += 1;
+      }
+
+    });
+
+    // ✅ SUMMARY UI
+    let html = `
+    <div class="card shadow-sm p-3 text-center">
+      <h5 class="mb-3">Summary Report</h5>
+      <div class="d-flex flex-wrap justify-content-center gap-3">
+    `;
+
+    Object.keys(summary).forEach(k=>{
+      html += `<span class="badge bg-primary p-2">${k}: ${summary[k]}</span>`;
+    });
+
+    html += `</div></div>`;
+
+    summaryBox.innerHTML = html;
+
+  })
+  .catch(()=>{
+    summaryBox.innerHTML = "<b>Error loading</b>";
+  });
+}
+// function getReport(){
+
+//   reportHead.innerHTML="";
+//   reportData.innerHTML="<tr><td colspan='10'>Loading...</td></tr>";
+//   summaryBox.innerHTML=""; // ✅ add
+
+//   fetch(url,{
+//     method:"POST",
+//     body:JSON.stringify({
+//       action:"getReport",
+//       EmpID:empName,
+//       fromDate:reportFrom.value,
+//       toDate:reportTo.value
+//     })
+//   })
+//   .then(res=>res.json())
+//   .then(data=>{
+
+//     reportHead.innerHTML="";
+//     reportData.innerHTML="";
+//     summaryBox.innerHTML=""; // ✅ clear
+
+//     if(!data.length){
+//       reportData.innerHTML="<tr><td colspan='10'>No Data</td></tr>";
+//       return;
+//     }
+
+//     let headers = Object.keys(data[0]);
+
+//     headers.forEach(h=>{
+//       reportHead.innerHTML += `<th>${h}</th>`;
+//     });
+
+//     let summary = {}; // ✅ summary object
+
+//     data.forEach(row=>{
+//       let tr="<tr>";
+
+//       headers.forEach(h=>{
+//         if(h.toLowerCase().includes("date") && row[h]){
+//           let d = new Date(row[h]);
+//           let formatted = d.getFullYear() + "-" + 
+//                           String(d.getMonth()+1).padStart(2,'0') + "-" + 
+//                           String(d.getDate()).padStart(2,'0');
+//           tr += `<td>${formatted}</td>`;
+//         }else{
+//           tr += `<td>${row[h] || ""}</td>`;
+//         }
+//       });
+
+//       tr+="</tr>";
+//       reportData.innerHTML+=tr;
+
+//       // ✅ SUMMARY LOGIC
+//       let type = row["Type"] || "UNKNOWN";
+
+//       if(!summary[type]){
+//         summary[type] = 0;
+//       }
+
+//       if(type === "LEAVE"){
+//         summary[type] += Number(row["Total_Leave"] || 0);
+//       }else{
+//         summary[type] += 1;
+//       }
+
+//     });
+
+//     // ✅ SHOW SUMMARY
+//     let html = `<div class="mb-2"><b>Summary: </b>`;
+
+//     Object.keys(summary).forEach(k=>{
+//       html += `${k}: <b>${summary[k]}</b> &nbsp;&nbsp;`;
+//     });
+
+//     html += `</div>`;
+
+//     summaryBox.innerHTML = html;
+
+//   })
+//   .catch(()=>{
+//     summaryBox.innerHTML="";
+//     reportData.innerHTML="<tr><td colspan='10'>Error loading</td></tr>";
+//   });
+// }
 // CLEAR
 function clearFields(){
   ["date","loc","reason","service","wb","consumed","fromdate","todate","leaveCount","leaveRemark"]
@@ -290,7 +375,6 @@ function clearFields(){
   let today=new Date().toISOString().split('T')[0];
   date.value=fromdate.value=todate.value=today;
 }
-
 </script>
 
 </body>
