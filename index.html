@@ -22,9 +22,7 @@
   <!-- LOGIN -->
   <div class="card" id="loginBox">
     <h4>Login</h4>
-    <label for="">Username</label>
     <input id="username" class="form-control mt-2" placeholder="Username">
-    <label for="">Password</label>
     <input id="password" type="password" class="form-control mt-2" placeholder="Password">
 
     <button id="loginBtn" class="btn btn-primary w-100 mt-3" onclick="login()">
@@ -40,11 +38,11 @@
 
       <select id="type" class="form-select mb-3" onchange="toggleFields()">
         <option value="" disabled selected>Select</option>
-        <option value="ONVISIT">On Visit</option>
-        <option value="NOVISIT">No Visit</option>
-        <option value="LEAVE">Leave</option>
-        <option value="OFFICE">Office</option>
-        <option value="REPORT">Report</option>
+        <option value="ONVISIT">ON VISIT</option>
+        <option value="NOVISIT">NO VISIT</option>
+        <option value="LEAVE">LEAVE</option>
+        <option value="OFFICE">BSP_HEAD_OFFICE</option>
+        <option value="REPORT">REPORT</option>
       </select>
 
       <!-- FORM FIELDS -->
@@ -187,6 +185,47 @@ fromdate.onchange = todate.onchange = function(){
 // SUBMIT
 function submitData(){
 
+  // =========================
+  // 🔴 BASIC VALIDATION
+  // =========================
+  if(type.value == ""){
+    Swal.fire("Select Type","","warning");
+    return;
+  }
+
+  // =========================
+  // 🔥 ON VISIT VALIDATION
+  // =========================
+  if(type.value == "ONVISIT"){
+
+    if(date.value == "" || loc.value == "" || reason.value == "" || service.value == "" || consumed.value == ""){
+      Swal.fire("Fill all required fields","","warning");
+      return;
+    }
+  }
+
+  // =========================
+  // 🔥 NOVISIT / OFFICE
+  // =========================
+  if(type.value == "NOVISIT" || type.value == "OFFICE"){
+
+    if(date.value == ""){
+      Swal.fire("Select Date","","warning");
+      return;
+    }
+  }
+
+  // =========================
+  // 🔥 LEAVE VALIDATION
+  // =========================
+  if(type.value == "LEAVE"){
+
+    if(fromdate.value == "" || todate.value == "" || leaveRemark.value == ""){
+      Swal.fire("Fill leave details","","warning");
+      return;
+    }
+  }
+
   submitBtn.disabled = true;
   submitText.innerText = "Saving...";
   submitSpinner.classList.remove("d-none");
@@ -208,13 +247,34 @@ function submitData(){
       Total_Leave:type.value=="LEAVE"?leaveDays:""
     })
   })
-  .then(()=>{
-    Swal.fire("Saved","","success");
+  .then(res => res.text())
+  .then(data => {
+
+    Swal.fire({
+      icon: "success",
+      title: "Saved",
+      text: "successfully",
+      timer: 1200,
+      showConfirmButton: false
+    }).then(() => {
+
+      // ⭐ AFTER MESSAGE CLOSE ONLY
+      type.value = "";
+      clearFields();
+      toggleFields();
+
+    });
+
   })
-  .finally(()=>{
+  .catch(err => {
+    Swal.fire("Error", "Something went wrong", "error");
+  })
+  .finally(() => {
+
     submitBtn.disabled = false;
     submitText.innerText = "Submit";
     submitSpinner.classList.add("d-none");
+
   });
 }
 // function getReport(){
@@ -286,7 +346,7 @@ function getReport(){
 
   reportHead.innerHTML="";
   reportData.innerHTML="<tr><td colspan='10'>Loading...</td></tr>";
-  summaryBox.innerHTML=""; // ✅ add
+  summaryBox.innerHTML="";
 
   fetch(url,{
     method:"POST",
@@ -302,7 +362,7 @@ function getReport(){
 
     reportHead.innerHTML="";
     reportData.innerHTML="";
-    summaryBox.innerHTML=""; // ✅ clear
+    summaryBox.innerHTML="";
 
     if(!data.length){
       reportData.innerHTML="<tr><td colspan='10'>No Data</td></tr>";
@@ -311,31 +371,54 @@ function getReport(){
 
     let headers = Object.keys(data[0]);
 
+    // HEADER
     headers.forEach(h=>{
       reportHead.innerHTML += `<th>${h}</th>`;
     });
 
-    let summary = {}; // ✅ summary object
+    let summary = {};
 
     data.forEach(row=>{
-      let tr="<tr>";
+
+      let tr = "<tr>";
 
       headers.forEach(h=>{
-        if(h.toLowerCase().includes("date") && row[h]){
-          let d = new Date(row[h]);
-          let formatted = d.getFullYear() + "-" + 
-                          String(d.getMonth()+1).padStart(2,'0') + "-" + 
-                          String(d.getDate()).padStart(2,'0');
-          tr += `<td>${formatted}</td>`;
-        }else{
-          tr += `<td>${row[h] || ""}</td>`;
+
+        let val = row[h];
+
+        // =========================
+        // ✅ DATE FORMAT FIX (IMPORTANT)
+        // =========================
+        if(h.toLowerCase().includes("date") || h.toLowerCase().includes("createdon")){
+
+          if(val){
+
+            let d = new Date(val);
+
+            // ❗ INVALID DATE FIX
+            if(!isNaN(d.getTime())){
+
+              let yyyy = d.getFullYear();
+              let mm = String(d.getMonth()+1).padStart(2,'0');
+              let dd = String(d.getDate()).padStart(2,'0');
+
+              val = `${yyyy}-${mm}-${dd}`;
+
+            }else{
+              val = "";
+            }
+          }
         }
+
+        tr += `<td>${val || ""}</td>`;
       });
 
-      tr+="</tr>";
-      reportData.innerHTML+=tr;
+      tr += "</tr>";
+      reportData.innerHTML += tr;
 
-      // ✅ SUMMARY LOGIC
+      // =========================
+      // SUMMARY
+      // =========================
       let type = row["Type"] || "UNKNOWN";
 
       if(!summary[type]){
@@ -350,8 +433,8 @@ function getReport(){
 
     });
 
-    // ✅ SHOW SUMMARY
-    let html = `<div class="mb-2"><b>Summary: </b>`;
+    // SUMMARY UI
+    let html = `<div class="mb-2"><b>Summary:</b> `;
 
     Object.keys(summary).forEach(k=>{
       html += `${k}: <b>${summary[k]}</b> &nbsp;&nbsp;`;
